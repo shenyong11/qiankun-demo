@@ -1,28 +1,55 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="qiankun-main-app">
+    <el-container style="height: 500px; border: 1px solid #eee">
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+        <el-menu>
+          <el-submenu index="1">
+            <template slot="title">子应用1</template>
+            <el-menu-item v-for="menu in menus" :key="menu.key" @click="gotoPath(menu.path)">{{menu.title}}</el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+      
+      <el-container>
+        <router-view></router-view>
+        <div id="frame"></div>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      menus: [
+        {
+          key: "Home",
+          title: "主页",
+          path: "/"
+        },
+        {
+          key: "VueMicroApp",
+          title: "Vue 主页",
+          path: "/vue"
+        },
+        {
+          key: "VueMicroAppList",
+          title: "Vue 列表页",
+          path: "/vue/list"
+        }
+      ]
+    }
+  },
+  methods: {
+    gotoPath(path) {
+      this.$router.push({ path })
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
